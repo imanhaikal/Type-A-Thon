@@ -16,14 +16,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.time.InstantSource;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
-
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -37,29 +34,28 @@ import javax.swing.JTextArea;
  *
  * @author resha
  */
-public class CorrectionFacility {
+public class QuotesGameMode {
     public static int mistake = 0;
     public static int typeRightWord = 0;
     static String textPool11;
-    public static int wordCount;
+    
     static boolean stopWatchClock = false;
     static long startTime;
-    String mostMisspelledWords;
     int currentIndex = 0;
     JFrame gamemode = new JFrame();
     HashMap<String , Integer> wrongWords;
     boolean[] mistakes;
+    String targetText;
     
-    
-    public CorrectionFacility() {
+    public QuotesGameMode() {
         this.wrongWords = UserRepository.getInstance().getCurrentUser().getWrongWords();
         
         
-        mostMisspelledWords = getMostMisspelledWords();
-        System.out.println(mostMisspelledWords);
-        mistakes = new boolean[mostMisspelledWords.length()];
+        textPool11 = wordPool();
+        targetText = QuotesGenerator.generateRandomQuotes(50);
+        mistakes = new boolean[targetText.length()];
         startTime = System.currentTimeMillis();
-        System.out.println(mostMisspelledWords);
+        System.out.println(textPool11);
        
         gamemode.setSize(600, 670);
         gamemode.setTitle("Game mode");
@@ -79,6 +75,7 @@ public class CorrectionFacility {
         int newHeight = 30;
         Image resizedImage = icon.getImage().getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
         ImageIcon resizedIcon = new ImageIcon(resizedImage);
+        gamemode.setLocationRelativeTo(null);
 
         BackButton.setBounds(10, 10, newWidth, newHeight);
         BackButton.setOpaque(true);
@@ -106,24 +103,24 @@ public class CorrectionFacility {
         title.setBounds(0, 0, 570, 50);
 
         
-        screenText.setText(parseHtml(mostMisspelledWords, 0));
+        screenText.setText(parseHtml(targetText, 0));
         screenText.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
-            	char typedChar = e.getKeyChar();
-                char targetChar = mostMisspelledWords.charAt(currentIndex);
+                char typedChar = e.getKeyChar();
+                char targetChar = targetText.charAt(currentIndex);
 
                 if (typedChar == targetChar) {
                     currentIndex++;
                     typeRightWord++;
-                    screenText.setText(parseHtml(mostMisspelledWords, currentIndex));
+                    screenText.setText(parseHtml(targetText, currentIndex));
                     System.out.println(currentIndex);
                     
-                    if (currentIndex == mostMisspelledWords.length()) {
+                    if (currentIndex == targetText.length()-1) {
                         long endTime = System.currentTimeMillis();
                         long timeTaken = endTime - startTime;
                         
-                        wpmCaculator(timeTaken, wordCount);
+                        wpmCaculator(timeTaken, wordPool().length());
                         // Calculate words per minute (WPM)
                  /*       int totalWords = targetText.split("\\s+").length;
                         double minutes = timeTaken / 60000.0; // Convert milliseconds to minutes
@@ -142,16 +139,16 @@ public class CorrectionFacility {
                         // Clear the mistake for the previous character
                         if(mistakes[currentIndex]) mistake--;
                         mistakes[currentIndex] = false;
-                        screenText.setText(parseHtml(mostMisspelledWords, currentIndex));
+                        screenText.setText(parseHtml(targetText, currentIndex));
                     }
                 }else {
                     mistake++;
                     System.out.println("Mistake");
                     mistakes[currentIndex] = true;
                     currentIndex++;
-                    if (currentIndex < mostMisspelledWords.length()) {
-                        screenText.setText(parseHtml(mostMisspelledWords, currentIndex));
-                        String word = findWordAtIndex(mostMisspelledWords, currentIndex);
+                    if (currentIndex < targetText.length()) {
+                        screenText.setText(parseHtml(targetText, currentIndex));
+                        String word = findWordAtIndex(targetText, currentIndex);
                         if (wrongWords.containsKey(word)) {
                             wrongWords.put(word, wrongWords.get(word) + 1);
                         } else {
@@ -255,30 +252,8 @@ public class CorrectionFacility {
         return textPool.toString();
     }
 */
-    private String getMostMisspelledWords() {
-        HashMap<String, Integer> wrongWords = UserRepository.getInstance().getCurrentUser().getWrongWords();
-
-        List<String> misspelledWordList = new ArrayList<>(wrongWords.keySet());
-        List<String> shuffledMisspelledWords = new ArrayList<>(misspelledWordList); // Make a copy
-
-        Collections.shuffle(shuffledMisspelledWords);
-
-        StringBuilder result = new StringBuilder();
-
-        // Repeat the misspelled words to achieve the target word count
-        while (result.toString().split("\\s+").length < 30) {
-            Collections.shuffle(shuffledMisspelledWords); // Shuffle the copy
-            for (String word : shuffledMisspelledWords) {
-                result.append(word).append(" ");
-            }
-        }
-
-        // Remove the trailing space
-        if (result.length() > 1) {
-            result.setLength(result.length() - 1);
-        }
-
-        return result.toString();
+    public static String wordPool() {
+            return QuotesGenerator.generateRandomQuotes(50);
     }
   /*  public static void typingGameWord(String myTextPool) {
         mistake = 0;
@@ -297,15 +272,15 @@ public class CorrectionFacility {
         }
     } */
     public void wpmCaculator(long timeTaken, double word) {
-        System.out.println(mostMisspelledWords);
+        System.out.println(targetText);
 
-        HashSet<String> wordSet = new HashSet<>(Arrays.asList(mostMisspelledWords.split("\\s+")));
+        HashSet<String> wordSet = new HashSet<>(Arrays.asList(targetText.split("\\s+")));
         System.out.println(wordSet);
 
         for (int i = 0; i < mistakes.length; i++) {
             if (mistakes[i]) {
-                System.out.println(findWordAtIndex(mostMisspelledWords, i));
-                wordSet.remove(findWordAtIndex(mostMisspelledWords, i));
+                System.out.println(findWordAtIndex(targetText, i));
+                wordSet.remove(findWordAtIndex(targetText, i));
             }
         }
         System.out.println(wordSet);
@@ -345,5 +320,3 @@ public class CorrectionFacility {
     
 
 } 
-
- 

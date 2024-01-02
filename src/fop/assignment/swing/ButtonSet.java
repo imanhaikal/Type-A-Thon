@@ -49,7 +49,7 @@ JPanel panel = new JPanel(new GridLayout(6, 1));
         Quote.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-               
+               QuotesGameMode quote = new QuotesGameMode();
             }
         });
         JButton Words = new JButton("Words");
