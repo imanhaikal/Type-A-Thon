@@ -27,7 +27,7 @@ import javax.swing.JTextArea;
 public class OkaGameModeTest {
     
     // Static variables for tracking mistakes, correct words, and other game-related data
-    public static int mistake = 0;
+    private static int mistake = 0;
     public static int typeRightWord = 0;
     static String textPool11;
     public static int wordCount;
@@ -44,8 +44,7 @@ public class OkaGameModeTest {
         // Initialize game-related data
         this.wrongWords = UserRepository.getInstance().getCurrentUser().getWrongWords();
         this.wordCount = words;
-        textPool11 = wordPool(wordCount);
-        targetText = ParagraphGenerator.generateRandomSentence(words);
+        targetText = wordPool(wordCount);
         mistakes = new boolean[targetText.length()];
         startTime = System.currentTimeMillis();
         
@@ -92,16 +91,9 @@ public class OkaGameModeTest {
                     currentIndex++;
                     typeRightWord++;
                     screenText.setText(parseHtml(targetText, currentIndex));
-
-                    if (currentIndex == targetText.length()) {
-                        // Game completed, calculate and display results
-                        long endTime = System.currentTimeMillis();
-                        long timeTaken = endTime - startTime;
-                        wpmCaculator(timeTaken, wordCount);
-//                        JOptionPane.showMessageDialog(null, wrongWords.toString());
-                        UserRepository.getInstance().saveDataToFile();
-                    }    
+                    
                 
+
                 } else if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
                     // Handle backspace
                     if (currentIndex > 0) {
@@ -125,6 +117,14 @@ public class OkaGameModeTest {
                         }
                     }
                 }
+                if (currentIndex == targetText.length()) {
+                    // Game completed, calculate and display results
+                    long endTime = System.currentTimeMillis();
+                    long timeTaken = endTime - startTime;
+                    wpmCaculator(timeTaken, wordCount);
+//                        JOptionPane.showMessageDialog(null, wrongWords.toString());
+                    UserRepository.getInstance().saveDataToFile();
+                }   
             }
        
             @Override

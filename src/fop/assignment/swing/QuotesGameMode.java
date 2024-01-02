@@ -35,7 +35,7 @@ import javax.swing.JTextArea;
  * @author resha
  */
 public class QuotesGameMode {
-    public static int mistake = 0;
+    private static int mistake = 0;
     public static int typeRightWord = 0;
     static String textPool11;
     
@@ -116,21 +116,7 @@ public class QuotesGameMode {
                     screenText.setText(parseHtml(targetText, currentIndex));
                     System.out.println(currentIndex);
                     
-                    if (currentIndex == targetText.length()-1) {
-                        long endTime = System.currentTimeMillis();
-                        long timeTaken = endTime - startTime;
-                        
-                        wpmCaculator(timeTaken, wordPool().length());
-                        // Calculate words per minute (WPM)
-                 /*       int totalWords = targetText.split("\\s+").length;
-                        double minutes = timeTaken / 60000.0; // Convert milliseconds to minutes
-                        int wpm = (int) Math.round(totalWords / minutes); */
-
-                        
-//                        JOptionPane.showMessageDialog(null,wrongWords.toString());
-                        UserRepository.getInstance().saveDataToFile();
-                    //    JOptionPane.showMessageDialog(null, "Accuracy: " +typeRightWord / (double) (typeRightWord + mistake) * 100 +"%"); 
-                    }    
+                    
                 
                 }else if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
                     // Handle backspace
@@ -156,6 +142,21 @@ public class QuotesGameMode {
                         }
                     }
                 }
+                if (currentIndex == targetText.length()-1) {
+                        long endTime = System.currentTimeMillis();
+                        long timeTaken = endTime - startTime;
+                        
+                        wpmCaculator(timeTaken, wordPool().length());
+                        // Calculate words per minute (WPM)
+                 /*       int totalWords = targetText.split("\\s+").length;
+                        double minutes = timeTaken / 60000.0; // Convert milliseconds to minutes
+                        int wpm = (int) Math.round(totalWords / minutes); */
+
+                        
+//                        JOptionPane.showMessageDialog(null,wrongWords.toString());
+                        UserRepository.getInstance().saveDataToFile();
+                    //    JOptionPane.showMessageDialog(null, "Accuracy: " +typeRightWord / (double) (typeRightWord + mistake) * 100 +"%"); 
+                    }    
             }
        
             @Override

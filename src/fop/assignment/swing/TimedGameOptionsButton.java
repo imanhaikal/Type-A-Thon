@@ -21,7 +21,7 @@ public class TimedGameOptionsButton extends JButton {
 
     private void showGameOptionsDialog() {
         GameOptionsDialog optionsDialog = new GameOptionsDialog();
-        optionsDialog.setVisible(true);
+//        optionsDialog.setVisible(true);
     }
 }
 
