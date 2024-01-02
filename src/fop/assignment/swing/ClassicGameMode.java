@@ -25,6 +25,7 @@ public class ClassicGameMode {
     boolean[] mistakes;
     String targetText;
     private int correctChar = 0;
+    private JFrame gamemode;
 
     private Timer timer;
     private JLabel timerLabel;
@@ -32,12 +33,11 @@ public class ClassicGameMode {
     public ClassicGameMode() {
         this.wrongWords = UserRepository.getInstance().getCurrentUser().getWrongWords();
         this.wordCount = 110;
-        textPool11 = wordPool(wordCount);
-        targetText = ParagraphGenerator.generateRandomSentence(110);
+        targetText = wordPool(wordCount);
         mistakes = new boolean[targetText.length()];
         startTime = System.currentTimeMillis();
 
-        JFrame gamemode = new JFrame();
+        gamemode = new JFrame();
         gamemode.setSize(600, 670);
         gamemode.setTitle("Game mode");
         gamemode.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -203,7 +203,7 @@ public class ClassicGameMode {
 
         String message = "Words Per Minute (WPM): " + wpm + "\n"
                 + "Mistakes: " + mistake + "\n"
-                + "Accuracy: " + accuracy + "%";
+                + String.format("Accuracy: %.2f%%", accuracy);
 
         UserRepository.getInstance().getCurrentUser().getWPM().add(wpm);
         UserRepository.getInstance().getCurrentUser().getAccuracy().add(accuracy);
@@ -221,6 +221,8 @@ public class ClassicGameMode {
         Toolkit.getDefaultToolkit().addAWTEventListener(myListener, AWTEvent.KEY_EVENT_MASK);
         JOptionPane.showMessageDialog(null, message, "WPM and Accuracy", JOptionPane.INFORMATION_MESSAGE);
         Toolkit.getDefaultToolkit().removeAWTEventListener(myListener);
+        
+        gamemode.dispose();
         
     }
 

@@ -35,7 +35,7 @@ public class MainMenu extends JFrame {
         add(welcomeLabel, gridbag);
         
         JLabel lastTenWPMLabel = new JLabel("Last 10 average WPM: " + currentUser.getLastTenWpmAverage());
-        JLabel allTimeAverageWPMLabel = new JLabel("All-time Average WPM: " + currentUser.getAllTimeAverageWPM());
+        JLabel allTimeAverageWPMLabel = new JLabel(String.format("All-time Average WPM: %.2f", currentUser.getAllTimeAverageWPM()));
         JLabel suddenDeathScoreLabel = new JLabel("Sudden Death Score: " + currentUser.getSuddenDeathScore());
         
         lastTenWPMLabel.setFont(new Font("Monospaced", Font.BOLD, 14));

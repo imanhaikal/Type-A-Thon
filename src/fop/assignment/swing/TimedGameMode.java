@@ -27,6 +27,7 @@ public class TimedGameMode {
     private int correctChar = 0;
     private static boolean includePunctuation; 
     private int duration;
+    private JFrame gamemode;
 
     private Timer timer;
     private JLabel timerLabel;
@@ -40,7 +41,7 @@ public class TimedGameMode {
         mistakes = new boolean[targetText.length()];
         startTime = System.currentTimeMillis();
 
-        JFrame gamemode = new JFrame();
+        gamemode = new JFrame();
         gamemode.setSize(600, 670);
         gamemode.setTitle("Game mode");
         gamemode.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -206,7 +207,7 @@ public class TimedGameMode {
 
         String message = "Words Per Minute (WPM): " + wpm + "\n"
                 + "Mistakes: " + mistake + "\n"
-                + "Accuracy: " + accuracy + "%";
+                + String.format("Accuracy: %.2f%%",accuracy);
 
         UserRepository.getInstance().getCurrentUser().getWPM().add(wpm);
         UserRepository.getInstance().getCurrentUser().getAccuracy().add(accuracy);
@@ -224,6 +225,7 @@ public class TimedGameMode {
         Toolkit.getDefaultToolkit().addAWTEventListener(myListener, AWTEvent.KEY_EVENT_MASK);
         JOptionPane.showMessageDialog(null, message, "WPM and Accuracy", JOptionPane.INFORMATION_MESSAGE);
         Toolkit.getDefaultToolkit().removeAWTEventListener(myListener);
+        gamemode.dispose();
         
     }
 

@@ -37,6 +37,7 @@ public class OkaGameModeTest {
     HashMap<String, Integer> wrongWords;
     boolean[] mistakes;
     String targetText;
+    private JFrame gamemode;
     
     // Constructor for the game mode
     public OkaGameModeTest(int words) {
@@ -49,7 +50,7 @@ public class OkaGameModeTest {
         startTime = System.currentTimeMillis();
         
         // Set up the JFrame for the game
-        JFrame gamemode = new JFrame();
+        gamemode = new JFrame();
         gamemode.setSize(600, 670);
         gamemode.setTitle("Game mode");
         gamemode.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -204,7 +205,7 @@ public class OkaGameModeTest {
         // Show results in JOptionPane dialog
         String message = "Words Per Minute (WPM): " + wpm + "\n"
                 + "Mistakes: " + mistake + "\n"
-                + "Accuracy: " + accuracy + "%";
+                + String.format("Accuracy: %.2f%%",accuracy);
         
         // Update user data and save to file
         UserRepository.getInstance().getCurrentUser().getWPM().add(wpm);
@@ -223,6 +224,8 @@ public class OkaGameModeTest {
         Toolkit.getDefaultToolkit().addAWTEventListener(myListener, AWTEvent.KEY_EVENT_MASK);
         JOptionPane.showMessageDialog(null, message, "WPM and Accuracy", JOptionPane.INFORMATION_MESSAGE);
         Toolkit.getDefaultToolkit().removeAWTEventListener(myListener);
+        
+        gamemode.dispose();
     }
 
     // Method to generate a random sentence based on word count
