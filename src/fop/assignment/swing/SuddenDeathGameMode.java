@@ -27,6 +27,7 @@ public class SuddenDeathGameMode{
     static long startTime;
     int currentIndex = 0;
     HashMap<String , Integer> wrongWords;
+    private JFrame gamemode;
 
     public SuddenDeathGameMode(int words) {
         this.wrongWords = UserRepository.getInstance().getCurrentUser().getWrongWords();
@@ -34,7 +35,7 @@ public class SuddenDeathGameMode{
         textPool11 = wordPool(wordCount);
         startTime = System.currentTimeMillis();
         System.out.println(textPool11);
-        JFrame gamemode = new JFrame();
+        gamemode = new JFrame();
         gamemode.setSize(600, 670);
         gamemode.setTitle("Game mode");
         gamemode.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -138,6 +139,8 @@ public class SuddenDeathGameMode{
         JOptionPane.showMessageDialog(null, "Game over! You pressed a wrong key.\nSudden Death Score: " + suddenDeathScore);
 //        JOptionPane.showMessageDialog(null, wrongWords.toString());
         UserRepository.getInstance().saveDataToFile();
+        
+        gamemode.dispose();
 
         
     }
