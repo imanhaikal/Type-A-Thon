@@ -168,6 +168,5 @@ public class MainMenu extends JFrame {
     private void showTypingGame(){
     	ButtonSet buttonSet = new ButtonSet();
         buttonSet.buttonmode.setVisible(true);
-        dispose();
     }
 }

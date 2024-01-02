@@ -26,7 +26,7 @@ public class SelectModeButton {
 			
 	buttonmode.setSize(570,670);
 	buttonmode.setTitle("Game mode");
-	buttonmode.setDefaultCloseOperation(buttonmode.EXIT_ON_CLOSE);
+	buttonmode.setDefaultCloseOperation(buttonmode.DISPOSE_ON_CLOSE);
 	buttonmode.setBackground(Color.black);
 	JPanel panel = new JPanel(new GridLayout(4, 1));
 

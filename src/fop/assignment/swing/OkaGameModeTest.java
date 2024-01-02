@@ -52,7 +52,7 @@ public class OkaGameModeTest {
         JFrame gamemode = new JFrame();
         gamemode.setSize(600, 670);
         gamemode.setTitle("Game mode");
-        gamemode.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        gamemode.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         gamemode.setBackground(Color.black);
         gamemode.setLocationRelativeTo(null);
         
