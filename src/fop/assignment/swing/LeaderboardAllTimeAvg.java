@@ -17,6 +17,7 @@ public class LeaderboardAllTimeAvg extends JFrame{
         setTitle("Leaderboard");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
 
         List<User> topPlayers = getTopPlayers();
         LeaderboardTableModel model = new LeaderboardTableModel(topPlayers);

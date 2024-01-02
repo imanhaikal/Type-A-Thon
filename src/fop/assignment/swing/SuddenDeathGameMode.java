@@ -39,6 +39,8 @@ public class SuddenDeathGameMode{
         gamemode.setTitle("Game mode");
         gamemode.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         gamemode.setBackground(Color.black);
+        gamemode.setLocationRelativeTo(null);
+        
         JEditorPane issue1 = new JEditorPane("text/html", parseHtml("this is a sentence", 7));
         issue1.setEditable(false);
         issue1.setForeground(Color.green);
@@ -116,7 +118,7 @@ public class SuddenDeathGameMode{
     public String parseHtml(String input,int index){
       StringBuilder html = new StringBuilder(input);
       html.insert(index, "</b>");
-      html.insert(0, "<html><body ><h1 style='color: green; font-size: 13px;'><b style='color: red;'>");
+      html.insert(0, "<html><body ><h1 style='color: white; font-size: 13px;'><b style='color: green;'>");
       html.append("</h1></body></html>");
       //System.out.println(html.toString());
       return html.toString();
@@ -134,7 +136,7 @@ public class SuddenDeathGameMode{
         UserRepository.getInstance().getCurrentUser().setSuddenDeathScore(suddenDeathScore);
         UserRepository.getInstance().saveDataToFile();
         JOptionPane.showMessageDialog(null, "Game over! You pressed a wrong key.\nSudden Death Score: " + suddenDeathScore);
-        JOptionPane.showMessageDialog(null, wrongWords.toString());
+//        JOptionPane.showMessageDialog(null, wrongWords.toString());
         UserRepository.getInstance().saveDataToFile();
 
         

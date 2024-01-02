@@ -160,11 +160,11 @@ public class ClassicGameMode {
     }
 
     public String parseHtml(String input, int index) {
-        StringBuilder html = new StringBuilder("<html><h1 style='color: white; font-size: 13px;'> <i style='color: green;'>");
+        StringBuilder html = new StringBuilder("<html><h1 style='color: white; font-size: 13px;'> <i style='color: green; font-size: 13px;'>");
         for (int i = 0; i < input.length(); i++) {
             if (mistakes[i]) {
-                html.append("<i style='color: red;'>").append(input.charAt(i)).append("</i>");
-            } else {
+                html.append("<i style='color: red; font-size: 13px;'>").append(input.charAt(i)).append("</i>");
+            }else {
                 html.append(input.charAt(i));
             }
 

@@ -81,7 +81,7 @@ JPanel panel = new JPanel(new GridLayout(6, 1));
             @Override
             public void actionPerformed(ActionEvent e){
                 GameOptionsDialog optionsDialog = new GameOptionsDialog();
-                optionsDialog.setVisible(true);
+//                optionsDialog.setVisible(true);
             }
         });
         JButton Sudden_Death = new JButton("Sudden Death");

@@ -4,6 +4,8 @@
  */
 package fop.assignment.swing;
 
+import static fop.assignment.swing.ClassicGameMode.startTime;
+import static fop.assignment.swing.ClassicGameMode.wordCount;
 import java.awt.AWTEvent;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -32,6 +34,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
+import javax.swing.Timer;
 
 /**
  *
@@ -49,6 +52,10 @@ public class CorrectionFacility {
     JFrame gamemode = new JFrame();
     HashMap<String , Integer> wrongWords;
     boolean[] mistakes;
+    private int correctChar;
+    
+    private Timer timer;
+    private JLabel timerLabel;
     
     
     public CorrectionFacility() {
@@ -65,6 +72,8 @@ public class CorrectionFacility {
         gamemode.setTitle("Game mode");
         gamemode.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         gamemode.setBackground(Color.black);
+        gamemode.setLocationRelativeTo(null);
+        
         JEditorPane screenText = new JEditorPane("text/html", " ");
         screenText.setEditable(false);
         screenText.setForeground(Color.green);
@@ -104,6 +113,34 @@ public class CorrectionFacility {
         title.setForeground(Color.yellow);
         title.setFont(new Font("Monospaced", Font.BOLD, 20));
         title.setBounds(0, 0, 570, 50);
+        
+        timerLabel = new JLabel("Time remaining: 30 seconds");
+        timerLabel.setHorizontalAlignment(JLabel.CENTER);
+        timerLabel.setVerticalAlignment(JLabel.TOP);
+        timerLabel.setVerticalTextPosition(JLabel.CENTER);
+        timerLabel.setHorizontalTextPosition(JLabel.CENTER);
+        timerLabel.setForeground(Color.yellow);
+        timerLabel.setFont(new Font("Monospaced", Font.BOLD, 15));
+        timerLabel.setBounds(0, 250, 570, 50);
+        
+        timer = new Timer(1000, new ActionListener() {
+            int secondsRemaining = 30;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (secondsRemaining > 0) {
+                    secondsRemaining--;
+                    timerLabel.setText("Time remaining: " + secondsRemaining + " seconds");
+                } else {
+                    stopTimer();
+                    long endTime = System.currentTimeMillis();
+                    long timeTaken = endTime - startTime;
+                    wpmCaculator(timeTaken, wordCount);
+//                    JOptionPane.showMessageDialog(null, wrongWords.toString());
+                    UserRepository.getInstance().saveDataToFile();
+                }
+            }
+        });
 
         
         screenText.setText(parseHtml(mostMisspelledWords, 0));
@@ -116,6 +153,8 @@ public class CorrectionFacility {
                 if (typedChar == targetChar) {
                     currentIndex++;
                     typeRightWord++;
+                    correctChar++;
+                    
                     screenText.setText(parseHtml(mostMisspelledWords, currentIndex));
                     System.out.println(currentIndex);
                     
@@ -159,6 +198,7 @@ public class CorrectionFacility {
                         }
                     }
                 }
+                startTimer();
             }
        
             @Override
@@ -170,6 +210,7 @@ public class CorrectionFacility {
             public void keyReleased(KeyEvent e) {
                //throw new UnsupportedOperationException("Not supported yet."); 
             }
+            
         });
             
         
@@ -178,6 +219,7 @@ public class CorrectionFacility {
         gamemode.add(screenText);
         gamemode.add(title);
         gamemode.add(BackButton);
+        gamemode.add(timerLabel);
         gamemode.setLayout(null);
         gamemode.getContentPane().setBackground(Color.DARK_GRAY);
         gamemode.setVisible(true); 
@@ -312,7 +354,7 @@ public class CorrectionFacility {
 
         double effectiveWordCount = wordSet.size();
         double minutes = timeTaken / 60000.0;
-        double wpmInitial = effectiveWordCount / minutes;
+        double wpmInitial = (correctChar/5) * 2;
         int wpm = (int) wpmInitial;
 
         double accuracy = (typeRightWord / (double) (typeRightWord + mistake)) * 100;
@@ -343,6 +385,17 @@ public class CorrectionFacility {
         
     }
     
+    private void startTimer() {
+        if (!timer.isRunning()) {
+            timer.start();
+        }
+    }
+
+    private void stopTimer() {
+        if (timer.isRunning()) {
+            timer.stop();
+        }
+    }
 
 } 
 

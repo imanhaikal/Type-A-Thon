@@ -20,9 +20,10 @@ public class SelectModeButton {
     protected static  int mode2 = 25;
     protected static  int mode3 = 50;
     protected static  int mode4 = 100;
+    private JFrame buttonmode;
 	
     public SelectModeButton(){
-        JFrame buttonmode = new JFrame();
+        buttonmode = new JFrame();
 			
 	buttonmode.setSize(570,670);
 	buttonmode.setTitle("Game mode");
@@ -45,7 +46,7 @@ public class SelectModeButton {
 	            public void actionPerformed(ActionEvent e){
 	            	OkaGameModeTest words = new OkaGameModeTest(10);
 	            	words.wordCount = 10;
-                        
+                        buttonmode.dispose();
 	            }
 	        });
 	        JButton Words = new JButton("25");
@@ -59,7 +60,7 @@ public class SelectModeButton {
 	            @Override
 	            public void actionPerformed(ActionEvent e){
 	            	OkaGameModeTest words = new OkaGameModeTest(25);
-	                
+	                buttonmode.dispose();
 	            }
 	        });
 	        JButton Time = new JButton("50");
@@ -75,7 +76,7 @@ public class SelectModeButton {
 	            @Override
 	            public void actionPerformed(ActionEvent e){
 	            	OkaGameModeTest words = new OkaGameModeTest(50);
-	               
+                        buttonmode.dispose();
 	            }
 	        });
 	        JButton Sudden_Death = new JButton("100");
@@ -91,7 +92,7 @@ public class SelectModeButton {
 	            @Override
 	            public void actionPerformed(ActionEvent e){
 	            	OkaGameModeTest words = new OkaGameModeTest(100);
-	               
+	               buttonmode.dispose();
 	            }
 	        });
 	        Quote.setBorderPainted(false);

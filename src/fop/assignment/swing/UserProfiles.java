@@ -25,6 +25,7 @@ public class UserProfiles extends JFrame {
         setTitle("Type-a-thon");
         setSize(800,600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); 
+        setLocationRelativeTo(null);
         
         LeaderboardTableModel model = new LeaderboardTableModel();
         
